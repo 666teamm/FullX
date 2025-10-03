@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FullX - Vidéos pour adultes</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/FevAvNY.png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #eee;
+      min-height: 100vh;
+    }
+    #age-check {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+    #age-check h1 {
+      color: #bb86fc;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    #age-check p {
+      color: #ccc;
+      max-width: 350px;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+    .btn-group {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      background: transparent;
+      border: 2px solid #bb86fc;
+      color: #bb86fc;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-width: 180px;
+      user-select: none;
+    }
+    button:hover {
+      background-color: #bb86fc;
+      color: #121212;
+    }
+    .exit-btn {
+      border-color: #f44336;
+      color: #f44336;
+    }
+    .exit-btn:hover {
+      background-color: #f44336;
+      color: #fff;
+    }
+
+    #main-content {
+      display: none;
+      padding: 20px;
+      max-width: 960px;
+      margin: auto;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    header img {
+      height: 50px;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      color: #bb86fc;
+      margin: 0;
+    }
+    .upload-btn {
+      border: 2px solid #4CAF50;
+      color: #4CAF50;
+      padding: 8px 16px;
+      border-radius: 30px;
+      background: transparent;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+    .upload-btn:hover {
+      background: #4CAF50;
+      color: #121212;
+    }
+    nav {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    nav button {
+      padding: 6px 14px;
+      border: 2px solid #bb86fc;
+      border-radius: 30px;
+      background: transparent;
+      color: #bb86fc;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    nav button.active,
+    nav button:hover {
+      background: #bb86fc;
+      color: #121212;
+    }
+    #search-container {
+      margin: 20px 0;
+    }
+    #search-input {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 40px;
+      border: none;
+      font-size: 1rem;
+      background: #222;
+      color: #eee;
+      box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);
+    }
+    #search-input:focus {
+      outline: none;
+      box-shadow: 0 6px 20px rgba(187, 134, 252, 0.7);
+    }
+    .video-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .video-card {
+      background: #222;
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+    }
+    .video-thumb {
+      width: 100%;
+      border-radius: 8px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      margin-bottom: 10px;
+      background: #000;
+    }
+    .video-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+      color: #ddd;
+    }
+    .video-duration {
+      color: #999;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 420px) {
+      header { padding-bottom: 8px; }
+      .upload-btn { padding: 6px 10px; font-size: 0.95rem; }
+      button { min-width: 140px; padding: 10px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <section id="age-check">
+    <img src="https://i.imgur.com/uDI0hum.png" alt="Logo FullX" style="height: 80px; margin-bottom: 20px;" />
+    <h1>Accès réservé aux adultes</h1>
+    <p>Ce site contient du contenu réservé aux personnes majeures. Veuillez confirmer que vous avez 18 ans ou plus pour continuer.</p>
+    <div class="btn-group">
+      <button id="enter-btn">J'ai 18 ans ou plus - Entrer</button>
+      <button id="exit-btn" class="exit-btn">Je suis mineur - Quitter</button>
+    </div>
+  </section>
+
+  <div id="main-content">
+    <header>
+      <div class="header-left">
+        <img src="https://i.imgur.com/uDI0hum.png" alt="Logo FullX" />
+        <h1>FullX</h1>
+      </div>
+      <button class="upload-btn" id="upload-btn">Upload your content</button>
+    </header>
+
+    <nav id="categories-nav" aria-label="Catégories de vidéos">
+      <button class="category-btn active" data-category="all">Toutes</button>
+      <button class="category-btn" data-category="Pornhub">Pornhub</button>
+      <button class="category-btn" data-category="Anal">Anal</button>
+      <button class="category-btn" data-category="92i">92i</button>
+    </nav>
+
+    <div id="search-container">
+      <input type="search" id="search-input" placeholder="Rechercher une vidéo..." aria-label="Rechercher une vidéo" />
+    </div>
+
+    <section class="video-list" id="video-list">
+      <!-- Vidéos injectées par JS -->
+    </section>
+
+    <footer>
+      &copy; 2025 FullX. Tous droits réservés.
+    </footer>
+  </div>
+
+  <script>
+    // 10 vidéos par catégorie prêtes à être remplacées
+    const videos = [
+      // === Pornhub ===
+      { title: "Touche d'abord mon corps et joue avec ma chatte humide, puis tu pourras bien me baiser avec ta grosse bite", duration: "15:46", category: "Pornhub", url: "https://www.dropbox.com/scl/fi/8wv7uqnjo7fip268ocwfy/First-touch-my-body-and-play-with-my-wet-pussy-and-then-you-can-fuck-me-good-with-your-big-dick.mp4?rlkey=p7lopkl6ao11j3oq39s3y9lun&st=zie4fwbo&dl=1", thumb: "https://media.discordapp.net/attachments/1394741065323380819/1423783961846353940/image.png?ex=68e191a5&is=68e04025&hm=f898d1868077b7e52345787ebaff74b4fc04292a78d4d67344e50741cd9122ba&=&format=webp&quality=lossless&width=1536&height=864" },
+      { title: "Pornhub 2", duration: "08:45", category: "Pornhub", url: "#", thumb: "https://via.placeholder.com/320x180?text=PH+2" },
+      { title: "Pornhub 3", duration: "12:30", category: "Pornhub", url: "#", thumb: "https://via.placeholder.com/320x180?text=PH+3" },
+      { title: "Pornhub 4", duration: "06:50", category: "Pornhub", url: "#", thumb: "https://via.placeholder.com/320x180?text=PH+4" },
+      { title: "Pornhub 5", duration: "09:20", category: "Pornhub", url: "#", thumb: "https://via.placeholder.com/320x180?text=PH+5" },
+      { title: "Pornhub 6", duration: "07:10", category: "Pornhub", url: "#", thumb: "https://via.placeholder.com/320x180?text=PH+6" },
+      { title: "Pornhub 7", duration: "14:05", category: "Pornhub", url: "#", thumb: "https://via.placeholder.com/320x180?text=PH+7" },
+      { title: "Pornhub 8", duration: "11:40", category: "Pornhub", url: "#", thumb: "https://via.placeholder.com/320x180?text=PH+8" },
+      { title: "Pornhub 9", duration: "05:55", category: "Pornhub", url: "#", thumb: "https://via.placeholder.com/320x180?text=PH+9" },
+      { title: "Pornhub 10", duration: "13:00", category: "Pornhub", url: "#", thumb: "https://via.placeholder.com/320x180?text=PH+10" },
+
+      // === Anal ===
+      { title: "Anal 1", duration: "09:30", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+1" },
+      { title: "Anal 2", duration: "07:45", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+2" },
+      { title: "Anal 3", duration: "12:10", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+3" },
+      { title: "Anal 4", duration: "08:00", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+4" },
+      { title: "Anal 5", duration: "10:15", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+5" },
+      { title: "Anal 6", duration: "06:35", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+6" },
+      { title: "Anal 7", duration: "11:50", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+7" },
+      { title: "Anal 8", duration: "05:20", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+8" },
+      { title: "Anal 9", duration: "13:30", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+9" },
+      { title: "Anal 10", duration: "09:05", category: "Anal", url: "#", thumb: "https://via.placeholder.com/320x180?text=Anal+10" },
+
+      // === 92i ===
+      { title: "92i 1", duration: "08:10", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+1" },
+      { title: "92i 2", duration: "10:00", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+2" },
+      { title: "92i 3", duration: "06:45", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+3" },
+      { title: "92i 4", duration: "12:20", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+4" },
+      { title: "92i 5", duration: "07:55", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+5" },
+      { title: "92i 6", duration: "09:40", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+6" },
+      { title: "92i 7", duration: "11:10", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+7" },
+      { title: "92i 8", duration: "05:50", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+8" },
+      { title: "92i 9", duration: "13:00", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+9" },
+      { title: "92i 10", duration: "08:25", category: "92i", url: "#", thumb: "https://via.placeholder.com/320x180?text=92i+10" }
+    ];
+
+    const videoListEl = document.getElementById('video-list');
+    const searchInput = document.getElementById('search-input');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    let currentCategory = 'all';
+
+    function displayVideos() {
+      const term = (searchInput.value || '').trim().toLowerCase();
+      let filtered = videos.filter(v => {
+        const matchesCategory = currentCategory === 'all' || v.category === currentCategory;
+        const matchesSearch = v.title.toLowerCase().includes(term);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (currentCategory !== 'all') filtered = filtered.slice(0, 10);
+
+      if (filtered.length === 0) {
+        videoListEl.innerHTML = '<p style="color:#bbb; font-style:italic;">Aucune vidéo trouvée.</p>';
+        return;
+      }
+
+      videoListEl.innerHTML = filtered.map(video => `
+        <article class="video-card">
+          <video class="video-thumb" src="${video.url}" poster="${video.thumb}" controls></video>
+          <div class="video-title">${video.title}</div>
+          <div class="video-duration">Durée : ${video.duration}</div>
+        </article>
+      `).join('');
+    }
+
+    categoryButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.getAttribute('data-category');
+        displayVideos();
+      });
+    });
+
+    searchInput.addEventListener('input', displayVideos);
+
+    // Age check
+    const ageCheck = document.getElementById('age-check');
+    const mainContent = document.getElementById('main-content');
+    const enterBtn = document.getElementById('enter-btn');
+    const exitBtn = document.getElementById('exit-btn');
+
+    if (localStorage.getItem('fullx_age_verified') === 'true') {
+      ageCheck.style.display = 'none';
+      mainContent.style.display = 'block';
+      displayVideos();
+    }
+
+    enterBtn.addEventListener('click', () => {
+      localStorage.setItem('fullx_age_verified', 'true');
+      ageCheck.style.display = 'none';
+      mainContent.style.display = 'block';
+      displayVideos();
+    });
+
+    exitBtn.addEventListener('click', () => {
+      window.location.href = "https://www.google.com";
+    });
+
+    document.getElementById('upload-btn').addEventListener('click', () => {
+      alert("Verry soon");
+    });
+
+    displayVideos();
+  </script>
+</body>
+</html>
