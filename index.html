@@ -94,6 +94,11 @@
       color: #bb86fc;
       margin: 0;
     }
+    .header-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
     .upload-btn {
       border: 2px solid #4CAF50;
       color: #4CAF50;
@@ -103,11 +108,35 @@
       font-weight: 600;
       cursor: pointer;
       user-select: none;
+      transition: all 0.3s ease;
     }
     .upload-btn:hover {
       background: #4CAF50;
       color: #121212;
     }
+    .discord-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #7289DA, #99AAB5);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(114, 137, 218, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      user-select: none;
+    }
+    .discord-btn img {
+      height: 24px;
+    }
+    .discord-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(114, 137, 218, 0.6);
+    }
+
     nav {
       margin-top: 10px;
       display: flex;
@@ -184,7 +213,7 @@
 
     @media (max-width: 420px) {
       header { padding-bottom: 8px; }
-      .upload-btn { padding: 6px 10px; font-size: 0.95rem; }
+      .upload-btn, .discord-btn { padding: 6px 10px; font-size: 0.95rem; }
       button { min-width: 140px; padding: 10px 18px; }
     }
   </style>
@@ -206,7 +235,13 @@
         <img src="https://i.imgur.com/uDI0hum.png" alt="Logo FullX" />
         <h1>FullX</h1>
       </div>
-      <button class="upload-btn" id="upload-btn">Upload your content</button>
+      <div class="header-buttons">
+        <button class="upload-btn" id="upload-btn">Upload your content</button>
+        <a href="https://discord.gg/ejhHtmggSK" target="_blank" class="discord-btn">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord Logo" />
+          Rejoindre notre Discord
+        </a>
+      </div>
     </header>
 
     <nav id="categories-nav" aria-label="Catégories de vidéos">
@@ -230,7 +265,7 @@
   </div>
 
   <script>
-    // 10 vidéos par catégorie prêtes à être remplacées
+    // Vidéos originales intactes, aucune modification
     const videos = [
       // === Pornhub ===
       { title: "Touche d'abord mon corps et joue avec ma chatte humide, puis tu pourras bien me baiser avec ta grosse bite", duration: "15:46", category: "Pornhub", url: "https://www.dropbox.com/scl/fi/8wv7uqnjo7fip268ocwfy/First-touch-my-body-and-play-with-my-wet-pussy-and-then-you-can-fuck-me-good-with-your-big-dick.mp4?rlkey=p7lopkl6ao11j3oq39s3y9lun&st=zie4fwbo&dl=1", thumb: "https://media.discordapp.net/attachments/1394741065323380819/1423783961846353940/image.png?ex=68e191a5&is=68e04025&hm=f898d1868077b7e52345787ebaff74b4fc04292a78d4d67344e50741cd9122ba&=&format=webp&quality=lossless&width=1536&height=864" },
@@ -340,5 +375,3 @@
   </script>
 </body>
 </html>
-
-
