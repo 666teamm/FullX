@@ -1,21 +1,21 @@
 - Added button Discord
 
-🔥 FULLX 2025 – UPDATE ULTRA STYLÉ 🔥
+- 🔥 FULLX 2025 – UPDATE ULTRA STYLÉ 🔥
 
-🌌 Background néon animé
+- 🌌 Background néon animé
 
-👾 Cartes vidéos glow + hover smooth
+- 👾 Cartes vidéos glow + hover smooth
 
-✨ Titres & durées avec effet néon
+   - ✨ Titres & durées avec effet néon
 
-💎 Boutons néon animés (Upload / Discord / Nav / Age Check)
+- 💎 Boutons néon animés (Upload / Discord / Nav / Age Check)
 
-⚡ Scroll animations pour les vidéos
+- ⚡ Scroll animations pour les vidéos
 
-🔍 Recherche & filtres stylés
+ - 🔍 Recherche & filtres stylés
 
-🎬 Vidéos sans autoplay + hover glow
+- 🎬 Vidéos sans autoplay + hover glow
 
-🛡️ Vérif âge stockée, exit redirige Google
+- 🛡️ Vérif âge stockée, exit redirige Google
 
-📱 Responsive & ultra premium
+- 📱 Responsive & ultra premium
