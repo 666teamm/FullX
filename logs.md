@@ -1,3 +1,5 @@
+- Added button Discord
+
 🔥 FULLX 2025 – UPDATE ULTRA STYLÉ 🔥
 
 🌌 Background néon animé
