@@ -1,268 +1,155 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FullX - Vidéos pour adultes</title>
-  <link rel="icon" type="image/png" href="https://i.imgur.com/FevAvNY.png" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212;
-      color: #eee;
-      min-height: 100vh;
-    }
-    #age-check {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-      padding: 20px;
-    }
-    #age-check h1 {
-      color: #bb86fc;
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    #age-check p {
-      color: #ccc;
-      max-width: 350px;
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-    }
-    .btn-group {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    button {
-      background: transparent;
-      border: 2px solid #bb86fc;
-      color: #bb86fc;
-      padding: 12px 28px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      border-radius: 40px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      min-width: 180px;
-      user-select: none;
-    }
-    button:hover {
-      background-color: #bb86fc;
-      color: #121212;
-    }
-    .exit-btn {
-      border-color: #f44336;
-      color: #f44336;
-    }
-    .exit-btn:hover {
-      background-color: #f44336;
-      color: #fff;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FullX - Vidéos pour adultes</title>
+<link rel="icon" type="image/png" href="https://i.imgur.com/FevAvNY.png" />
+<style>
+/* --- Reset & base --- */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height:100vh;
+  color:#eee;
+  overflow-x:hidden;
+  background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
+  background-size: 200% 200%;
+  animation: bgAnim 30s ease infinite;
+  transition: background 0.5s ease;
+}
 
-    #main-content {
-      display: none;
-      padding: 20px;
-      max-width: 960px;
-      margin: auto;
-    }
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-    }
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    header img {
-      height: 50px;
-    }
-    header h1 {
-      font-size: 1.8rem;
-      color: #bb86fc;
-      margin: 0;
-    }
-    .header-buttons {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    .upload-btn {
-      border: 2px solid #4CAF50;
-      color: #4CAF50;
-      padding: 8px 16px;
-      border-radius: 30px;
-      background: transparent;
-      font-weight: 600;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.3s ease;
-    }
-    .upload-btn:hover {
-      background: #4CAF50;
-      color: #121212;
-    }
-    .discord-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: linear-gradient(135deg, #7289DA, #99AAB5);
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 1rem;
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(114, 137, 218, 0.4);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      user-select: none;
-    }
-    .discord-btn img {
-      height: 24px;
-    }
-    .discord-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(114, 137, 218, 0.6);
-    }
+/* --- Background animation --- */
+@keyframes bgAnim {
+  0%{background-position:0% 0%;}
+  50%{background-position:100% 100%;}
+  100%{background-position:0% 0%;}
+}
 
-    nav {
-      margin-top: 10px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    nav button {
-      padding: 6px 14px;
-      border: 2px solid #bb86fc;
-      border-radius: 30px;
-      background: transparent;
-      color: #bb86fc;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    nav button.active,
-    nav button:hover {
-      background: #bb86fc;
-      color: #121212;
-    }
-    #search-container {
-      margin: 20px 0;
-    }
-    #search-input {
-      width: 100%;
-      padding: 12px 20px;
-      border-radius: 40px;
-      border: none;
-      font-size: 1rem;
-      background: #222;
-      color: #eee;
-      box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);
-    }
-    #search-input:focus {
-      outline: none;
-      box-shadow: 0 6px 20px rgba(187, 134, 252, 0.7);
-    }
-    .video-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .video-card {
-      background: #222;
-      padding: 12px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
-    }
-    .video-thumb {
-      width: 100%;
-      border-radius: 8px;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      margin-bottom: 10px;
-      background: #000;
-    }
-    .video-title {
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin-bottom: 6px;
-      color: #ddd;
-    }
-    .video-duration {
-      color: #999;
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-    }
-    footer {
-      margin-top: 3rem;
-      text-align: center;
-      color: #555;
-      font-size: 0.9rem;
-    }
+/* --- Animations --- */
+@keyframes fadeInUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+@keyframes glow { 0%,100%{text-shadow:0 0 8px #ff6f91,0 0 16px #ff6f91;} 50%{text-shadow:0 0 16px #ff6f91,0 0 24px #ff6f91;} }
 
-    @media (max-width: 420px) {
-      header { padding-bottom: 8px; }
-      .upload-btn, .discord-btn { padding: 6px 10px; font-size: 0.95rem; }
-      button { min-width: 140px; padding: 10px 18px; }
-    }
-  </style>
+/* --- Age check --- */
+#age-check{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  text-align:center;
+  padding:20px;
+  background: rgba(0,0,0,0.9);
+  animation: fadeInUp 1s ease forwards;
+}
+#age-check img{height:100px;margin-bottom:20px;animation: glow 2s ease-in-out infinite alternate;}
+#age-check h1{font-size:3rem;color:#ff6f91;margin-bottom:1rem;text-shadow:0 0 15px #ff6f91;}
+#age-check p{color:#ccc;max-width:400px;font-size:1.2rem;margin-bottom:2rem;}
+.btn-group{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+button{
+  background:transparent;
+  border:2px solid #ff6f91;
+  color:#ff6f91;
+  padding:14px 32px;
+  font-size:1.2rem;
+  font-weight:700;
+  border-radius:50px;
+  cursor:pointer;
+  transition:0.4s ease;
+  min-width:180px;
+  position:relative;
+  box-shadow:0 0 10px rgba(255,111,145,0.5);
+}
+button:hover{
+  background:#ff6f91;color:#121212;transform:scale(1.05);
+  box-shadow:0 0 25px #ff6f91;
+}
+.exit-btn{border-color:#f44336;color:#f44336;}
+.exit-btn:hover{background-color:#f44336;color:#fff;box-shadow:0 0 25px #f44336;}
+
+/* --- Main content --- */
+#main-content{display:none;padding:20px;max-width:1200px;margin:auto;}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:2rem;border-bottom:1px solid #444;padding-bottom:10px;}
+.header-left{display:flex;align-items:center;gap:10px;}
+header img{height:60px;}
+header h1{font-size:2rem;color:#ff6f91;margin:0;text-shadow:0 0 10px #ff6f91,0 0 20px #ff6f91;}
+.header-buttons{display:flex;gap:15px;flex-wrap:wrap;}
+.upload-btn{border:2px solid #4CAF50;color:#4CAF50;padding:10px 20px;border-radius:40px;background:transparent;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 0 8px #4CAF50;}
+.upload-btn:hover{background:#4CAF50;color:#121212;transform:scale(1.05);box-shadow:0 0 20px #4CAF50;}
+.discord-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#7289DA,#99AAB5);color:#fff;padding:10px 20px;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;box-shadow:0 0 10px rgba(114,137,218,0.5);transition:0.2s;}
+.discord-btn img{height:24px;}
+.discord-btn:hover{transform:translateY(-3px);box-shadow:0 0 25px rgba(114,137,218,0.8);}
+
+/* --- Navigation --- */
+nav{margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;}
+nav button{padding:8px 16px;border:2px solid #ff6f91;border-radius:50px;background:transparent;color:#ff6f91;font-weight:600;cursor:pointer;transition:all 0.3s ease;box-shadow:0 0 5px #ff6f91;}
+nav button.active, nav button:hover{background:#ff6f91;color:#121212;transform:scale(1.05);box-shadow:0 0 20px #ff6f91;}
+
+/* --- Search --- */
+#search-container{margin:20px 0;}
+#search-input{width:100%;padding:14px 24px;border-radius:50px;border:none;font-size:1rem;background:#222;color:#eee;box-shadow:0 0 10px rgba(255,111,145,0.3);transition:0.3s;}
+#search-input:focus{outline:none;box-shadow:0 0 20px rgba(255,111,145,0.7);}
+
+/* --- Video list --- */
+.video-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.video-card{background:#222;padding:12px;border-radius:20px;box-shadow:0 0 15px rgba(255,111,145,0.4);transition:all 0.4s ease;opacity:0;transform:translateY(30px);}
+.video-card.visible{opacity:1;transform:translateY(0);transition:all 0.6s ease;}
+.video-card:hover{transform:translateY(-5px);box-shadow:0 0 25px #ff6f91,0 0 40px rgba(255,111,145,0.3);}
+.video-thumb{width:100%;border-radius:15px;aspect-ratio:16/9;object-fit:cover;margin-bottom:10px;transition:all 0.3s;}
+.video-thumb:hover{transform:scale(1.03);box-shadow:0 0 25px #ff6f91;}
+.video-title{font-weight:700;font-size:1.1rem;margin-bottom:6px;color:#ddd;text-shadow:0 0 8px #ff6f91;}
+.video-duration{color:#999;font-size:0.9rem;margin-bottom:8px;}
+
+/* --- Footer --- */
+footer{margin-top:3rem;text-align:center;color:#888;font-size:0.9rem;}
+
+/* --- Responsive --- */
+@media(max-width:420px){header{padding-bottom:8px;}.upload-btn,.discord-btn{padding:6px 12px;font-size:0.95rem;}button{min-width:140px;padding:10px 18px;}}
+</style>
 </head>
 <body>
-  <section id="age-check">
-    <img src="https://i.imgur.com/uDI0hum.png" alt="Logo FullX" style="height: 80px; margin-bottom: 20px;" />
-    <h1>Accès réservé aux adultes</h1>
-    <p>Ce site contient du contenu réservé aux personnes majeures. Veuillez confirmer que vous avez 18 ans ou plus pour continuer.</p>
-    <div class="btn-group">
-      <button id="enter-btn">J'ai 18 ans ou plus - Entrer</button>
-      <button id="exit-btn" class="exit-btn">Je suis mineur - Quitter</button>
+
+<section id="age-check">
+  <img src="https://i.imgur.com/uDI0hum.png" alt="Logo FullX">
+  <h1>Accès réservé aux adultes</h1>
+  <p>Ce site contient du contenu réservé aux personnes majeures. Veuillez confirmer que vous avez 18 ans ou plus pour continuer.</p>
+  <div class="btn-group">
+    <button id="enter-btn">J'ai 18 ans ou plus - Entrer</button>
+    <button id="exit-btn" class="exit-btn">Je suis mineur - Quitter</button>
+  </div>
+</section>
+
+<div id="main-content">
+  <header>
+    <div class="header-left">
+      <img src="https://i.imgur.com/uDI0hum.png" alt="Logo FullX">
+      <h1>FullX</h1>
     </div>
-  </section>
-
-  <div id="main-content">
-    <header>
-      <div class="header-left">
-        <img src="https://i.imgur.com/uDI0hum.png" alt="Logo FullX" />
-        <h1>FullX</h1>
-      </div>
-      <div class="header-buttons">
-        <button class="upload-btn" id="upload-btn">Upload your content</button>
-        <a href="https://discord.gg/ejhHtmggSK" target="_blank" class="discord-btn">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord Logo" />
-          Rejoindre notre Discord
-        </a>
-      </div>
-    </header>
-
-    <nav id="categories-nav" aria-label="Catégories de vidéos">
-      <button class="category-btn active" data-category="all">Toutes</button>
-      <button class="category-btn" data-category="Pornhub">Pornhub</button>
-      <button class="category-btn" data-category="Anal">Anal</button>
-      <button class="category-btn" data-category="92i">92i</button>
-    </nav>
-
-    <div id="search-container">
-      <input type="search" id="search-input" placeholder="Rechercher une vidéo..." aria-label="Rechercher une vidéo" />
+    <div class="header-buttons">
+      <button class="upload-btn" id="upload-btn">Upload your content</button>
+      <a href="https://discord.gg/ejhHtmggSK" target="_blank" class="discord-btn">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord Logo">Rejoindre notre Discord
+      </a>
     </div>
+  </header>
 
-    <section class="video-list" id="video-list"></section>
+  <nav id="categories-nav" aria-label="Catégories de vidéos">
+    <button class="category-btn active" data-category="all">Toutes</button>
+    <button class="category-btn" data-category="Pornhub">Pornhub</button>
+    <button class="category-btn" data-category="Anal">Anal</button>
+    <button class="category-btn" data-category="92i">92i</button>
+  </nav>
 
-    <footer>
-      &copy; 2025 FullX. Tous droits réservés.
-    </footer>
+  <div id="search-container">
+    <input type="search" id="search-input" placeholder="Rechercher une vidéo..." aria-label="Rechercher une vidéo">
   </div>
 
-  <script>
+  <section class="video-list" id="video-list"></section>
+
+  <footer>&copy; 2025 FullX. Tous droits réservés.</footer>
+</div>
+
+<script>
     const videos = [
       // === Pornhub ===
       { title: "Touche d'abord mon corps et joue avec ma chatte humide, puis tu pourras bien me baiser avec ta grosse bite", duration: "15:46", category: "Pornhub", url: "https://www.dropbox.com/scl/fi/8wv7uqnjo7fip268ocwfy/First-touch-my-body-and-play-with-my-wet-pussy-and-then-you-can-fuck-me-good-with-your-big-dick.mp4?rlkey=p7lopkl6ao11j3oq39s3y9lun&st=zie4fwbo&dl=1", thumb: "https://imgur.com/kwsXiId.png" },
@@ -302,72 +189,69 @@
       
     ];
 
-    const videoListEl = document.getElementById('video-list');
-    const searchInput = document.getElementById('search-input');
-    const categoryButtons = document.querySelectorAll('.category-btn');
-    let currentCategory = 'all';
+// --- Interface ---
+const videoListEl=document.getElementById('video-list');
+const searchInput=document.getElementById('search-input');
+const categoryButtons=document.querySelectorAll('.category-btn');
+let currentCategory='all';
 
-    function displayVideos() {
-      const term = (searchInput.value || '').trim().toLowerCase();
-      let filtered = videos.filter(v => {
-        const matchesCategory = currentCategory === 'all' || v.category === currentCategory;
-        const matchesSearch = v.title.toLowerCase().includes(term);
-        return matchesCategory && matchesSearch;
-      });
-      if (currentCategory !== 'all') filtered = filtered.slice(0, 10);
-      if (filtered.length === 0) {
-        videoListEl.innerHTML = '<p style="color:#bbb;font-style:italic;">Aucune vidéo trouvée.</p>';
-        return;
-      }
-      videoListEl.innerHTML = filtered.map(video => `
-        <article class="video-card">
-          <video class="video-thumb" src="${video.url}" poster="${video.thumb || 'https://via.placeholder.com/320x180?text=No+Thumbnail'}" controls></video>
-          <div class="video-title">${video.title}</div>
-          <div class="video-duration">Durée : ${video.duration}</div>
-        </article>
-      `).join('');
-    }
+function displayVideos(){
+  const term=(searchInput.value||'').trim().toLowerCase();
+  let filtered=videos.filter(v=>{
+    const matchesCategory=currentCategory==='all'||v.category===currentCategory;
+    const matchesSearch=v.title.toLowerCase().includes(term);
+    return matchesCategory&&matchesSearch;
+  });
+  if(currentCategory!=='all') filtered=filtered.slice(0,10);
+  if(filtered.length===0){videoListEl.innerHTML='<p style="color:#bbb;font-style:italic;">Aucune vidéo trouvée.</p>'; return;}
+  videoListEl.innerHTML=filtered.map(video=>`
+    <article class="video-card">
+      <video class="video-thumb" src="${video.url}" poster="${video.thumb || 'https://via.placeholder.com/320x180?text=No+Thumbnail'}" controls></video>
+      <div class="video-title">${video.title}</div>
+      <div class="video-duration">Durée : ${video.duration}</div>
+    </article>
+  `).join('');
 
-    categoryButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        categoryButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentCategory = btn.getAttribute('data-category');
-        displayVideos();
-      });
-    });
+  const cards=document.querySelectorAll('.video-card');
+  cards.forEach(card=>{
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{if(entry.isIntersecting) card.classList.add('visible');});
+    },{threshold:0.2});
+    observer.observe(card);
+  });
+}
 
-    searchInput.addEventListener('input', displayVideos);
+categoryButtons.forEach(btn=>{btn.addEventListener('click',()=>{
+  categoryButtons.forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCategory=btn.getAttribute('data-category');
+  displayVideos();
+});});
 
-    const ageCheck = document.getElementById('age-check');
-    const mainContent = document.getElementById('main-content');
-    const enterBtn = document.getElementById('enter-btn');
-    const exitBtn = document.getElementById('exit-btn');
+searchInput.addEventListener('input',displayVideos);
 
-    if (localStorage.getItem('fullx_age_verified') === 'true') {
-      ageCheck.style.display = 'none';
-      mainContent.style.display = 'block';
-      displayVideos();
-    }
+const ageCheck=document.getElementById('age-check');
+const mainContent=document.getElementById('main-content');
+const enterBtn=document.getElementById('enter-btn');
+const exitBtn=document.getElementById('exit-btn');
 
-    enterBtn.addEventListener('click', () => {
-      localStorage.setItem('fullx_age_verified', 'true');
-      ageCheck.style.display = 'none';
-      mainContent.style.display = 'block';
-      displayVideos();
-    });
+if(localStorage.getItem('fullx_age_verified')==='true'){
+  ageCheck.style.display='none';
+  mainContent.style.display='block';
+  displayVideos();
+}
 
-    exitBtn.addEventListener('click', () => {
-      window.location.href = "https://www.google.com";
-    });
+enterBtn.addEventListener('click',()=>{
+  localStorage.setItem('fullx_age_verified','true');
+  ageCheck.style.display='none';
+  mainContent.style.display='block';
+  displayVideos();
+});
 
-    document.getElementById('upload-btn').addEventListener('click', () => {
-      alert("Very soon");
-    });
+exitBtn.addEventListener('click',()=>{window.location.href="https://www.google.com";});
+document.getElementById('upload-btn').addEventListener('click',()=>{alert("Very soon");});
 
-    displayVideos();
-  </script>
+displayVideos();
+</script>
 </body>
 </html>
-
-
