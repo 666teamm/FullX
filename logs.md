@@ -6,7 +6,7 @@
 
 - 👾 Cartes vidéos glow + hover smooth
 
-   - ✨ Titres & durées avec effet néon
+- ✨ Titres & durées avec effet néon
 
 - 💎 Boutons néon animés (Upload / Discord / Nav / Age Check)
 
