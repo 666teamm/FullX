@@ -19,3 +19,5 @@
 - 🛡️ Vérif âge stockée, exit redirige Google
 
 - 📱 Responsive & ultra premium
+
+- Added creator categorie
